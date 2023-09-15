@@ -41,6 +41,13 @@ body {
 }
 
 
+/*breadcrumb*/
+.e-breadcrumb a, .e-breadcrumb a:hover {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+
 /*Radio button Groupt*/
 .e-btn-group.custom-rbt-group {
     width: 100%;
