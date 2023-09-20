@@ -8,8 +8,9 @@
 <div class="row">
     <div class="col-md-7">
         <div class="widget p-5" style="background-color: #212b36">
-            <form asp-action="Create">
+            <form asp-action="AddOrEdit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="TransactionId" value="@Model.TransactionId" />
             <div class="mb-3">
                 <ejs-datepicker id="date" ejs-for="Date" placeholder="Date" floatLabelType="Always" format="MMM-dd-yyyy"></ejs-datepicker>
                 <span asp-validation-for="Date" class="text-danger"></span>
@@ -22,26 +23,31 @@
                 </ejs-dropdownlist>
             </div>
             <div class="mb-3">
-                <ejs-numerictextbox id="Ammount" ejs-for="Ammount" placeholder="Ammount" min="0" floatLabelType="Always" value="10" Type="text"></ejs-numerictextbox>
+                <ejs-numerictextbox id="Amount" ejs-for="Amount" placeholder="Amount" min="0" floatLabelType="Always" value="10" Type="text" format="₹0"></ejs-numerictextbox>
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="mb-3">
-                <label asp-for="Note" class="control-label"></label>
-                <input asp-for="Note" class="form-control" />
+                <ejs-textbox id="note" placeholder="Note" ejs-for="Note" floatLabelType="Always" multiline="true"></ejs-textbox>
                 <span asp-validation-for="Note" class="text-danger"></span>
             </div>
   
             <div class="mb-3">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
             </div>
         </form>
         </div>
     </div>
     <div class="col-md-5">
-        <div class="widget h-100 d-flex justify-content-center align-items-center" >
-            <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <img src="/lib/transaction-add-removebg-preview.png" alt="Triangle" class="img-fluid" style="max-width: auto; height: 85%" />
         </div>
     </div>
+    @* <div class="col-md-5">
+        <div class="widget h-100 d-flex justify-content-center align-items-center" >
+            <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
+            
+        </div>
+    </div> *@
 </div>
 
 @* <div>

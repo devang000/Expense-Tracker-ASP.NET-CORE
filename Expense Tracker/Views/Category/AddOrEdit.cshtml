@@ -1,13 +1,14 @@
 ﻿@model Expense_Tracker.Models.Category
 
 @{
-    // ViewData["Title"] = "Create";
+    // ViewData["Title"] = "
+    // ";
     ViewData["PageTitle"] = Model.CategoryId == 0 ? "Create a new category" : "Edit category";
 }
 
 <div class="row">
     <div class="col-md-7">
-        <div class="widget p-5" style="background-color: #212b36">
+        <div class="widget p-5 h-100" style="background-color: #212b36">
             <form asp-action="AddOrEdit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" name="CategoryId" value="@Model.CategoryId" />
@@ -20,15 +21,17 @@
                     </div>
                     <span asp-validation-for="Type" class="text-danger"></span>
                 </div>
+                <br>
                 <div class="mb-3">
                     <ejs-textbox id="Title" placeholder="Title" ejs-for="Title" floatLabelType="Always"></ejs-textbox>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
+                <br>
                 <div class="mb-3">
                     <ejs-textbox id="Icon" placeholder="Icon" ejs-for="Icon" floatLabelType="Always"></ejs-textbox>
                     <span asp-validation-for="Icon" class="text-danger"></span>
                 </div>
-
+                <br>
                 <div class="form-group">
                     <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
                 </div>
@@ -36,18 +39,12 @@
         </div> 
     </div>
     <div class="col-md-5">
-        <div class="widget h-100 d-flex justify-content-center align-items-center" >
-            <i class="fa-solid fa-shapes fa-2xl"></i>
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <img src="~/lib/cat.png" alt="Triangle" class="img-fluid" style="max-width: auto; height: 60%" />
         </div>
     </div>
 </div>
-
-
-
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<br>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
