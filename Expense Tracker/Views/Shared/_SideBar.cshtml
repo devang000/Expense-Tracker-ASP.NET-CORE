@@ -1,8 +1,65 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
+
 @{
+    List<object> menuItems = new List<Object>();
+
+    menuItems.Add(new
+    {
+        text = "General",
+        separator=true,
+    });    
+    
+    menuItems.Add(new
+    {
+        text = "Dashboard",
+        url = "/",
+        iconCss = "fa-solid fa-home",
+    }); 
+    
+    menuItems.Add(new
+    {
+        text = "Categories",
+        url = "/Category",
+        iconCss = "fa-solid fa-folder-closed",
+    });
+
+    menuItems.Add(new
+    {
+        text = "Transactions",
+        url = "/Transaction",
+        iconCss = "fa-solid fa-arrow-right-arrow-left",
+    });
+    
+    menuItems.Add(new
+    {
+        text = "Extras",
+        separator=true,
+    });
+
+    menuItems.Add(new
+    {
+        text = "Settings",
+        url = "#",
+        iconCss = "fa-solid fa-gear",
+    });
 }
 
 
-<ejs-sidebar id="sidebar" width="290px"></ejs-sidebar>
+<ejs-sidebar id="sidebar" width="290px">
+    <e-content-template>
+
+
+        <div class="profile-wrapper">
+            <img src="/apple-touch-icon.png" height="auto" width="32px" />  
+            <div class="titles d-flex flex-column ps-3">
+                <p class="mb-0 fw-bold" style="font-size:large; font-family:'Arial Rounded MT'">Expense Tracker</p>
+                @* <span class="text-muted">Devang Gohil</span> *@
+            </div>
+        </div>
+
+        <ejs-menu id="menu" items="menuItems" orientation="Vertical" hamburgerMode></ejs-menu>
+    </e-content-template>
+</ejs-sidebar>
