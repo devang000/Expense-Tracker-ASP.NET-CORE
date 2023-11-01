@@ -13,26 +13,25 @@
                   allowSorting="true" allowPaging="true">
             <e-grid-pagesettings pageSize="7"></e-grid-pagesettings>
             <e-grid-columns>
-                <e-grid-column headerText="Category" field="TitleWithIcon"></e-grid-column>
+                <e-grid-column headerText="Category" cssClass="category-info-button" field="TitleWithIcon" data-id="Title"></e-grid-column>
                 <e-grid-column headerText="Type" template="#typeColumnTemplate" width="150px"></e-grid-column>
-                <e-grid-column headerText="Actions" template="#actionColumnTemplate" width="100px"></e-grid-column>
+                <e-grid-column headerText="Actions" template="#actionColumnTemplate" width="120px"></e-grid-column>
             </e-grid-columns>
         </ejs-grid>
     </div>
-@*     <div class="col-md-5">
-        <div class="widget h-100 d-flex justify-content-center align-items-center">
-            <i class="fa-solid fa-shapes fa-2xl"></i>
-        </div>
-    </div> *@
+
     <div class="col-md-5">
-        <div class="widget h-100 d-flex justify-content-center align-items-center">
-            <img src="./lib/CategoryLogo.png" alt="Triangle"/>
+        <div id="budget-info" class="widget h-100 d-flex justify-content-center align-items-center">
+            <!-- Budget information will be displayed here -->
+            <h4 class="mb-0">${category.TitleWithIcon}</h4>
+            <p class="mb-0">Budget: ${budget}</p>
         </div>
     </div>
-
 </div>
 
-<script id="typeColumnTemplate">
+
+
+<script id="typeColumnTemplate" type="text/x-template">
     ${if(Type=="Income")}
         <span class="badge bg-success">${Type}</span>
     ${else}
@@ -42,15 +41,97 @@
 
 <script id="actionColumnTemplate" type="text/x-template">
     <div class="d-flex flex-row justify-content-start">
-        <a class="btn btn-sm no-a-decoration" href="/Category/AddOrEdit/${CategoryId}">
-            <i class="fa-solid fa-pen-to-square fa-lg" style="color: #fff700"></i>
-        </a>
-        <form action="/Category/Delete/${CategoryId}" method="post">
+      <a class="btn btn-sm no-a-decoration" href="/Category/AddOrEdit/${CategoryId}">
+        <i class="fa-solid fa-pen-to-square fa-lg" style="color: #fff700"></i>
+      </a>   
+      <form action="/Category/Delete/${CategoryId}" method="post">
     @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-sm btn-link no-a-decoration"
-            onclick="return confirm(&quot;Are sure to delete this record?&quot;)">
-                <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
-            </button>
-        </form>
+        <button type="submit" class="btn btn-sm btn-link no-a-decoration"
+                onclick="return confirm(&quot;Are sure to delete this record?&quot;)">
+          <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
+        </button>
+        <a class="btn btn-sm no-a-decoration" href="/Category/GetBudget/${CategoryId}">
+          <i class="fa-solid fa-bars fa-lg" style="color: #fff"></i>
+        </a>
+      </form>
     </div>
+</script>
+
+
+<script>
+    // // Get the col-md-5 class element.
+    // var budgetInfoDiv = document.querySelector(".col-md-5");
+
+    // // Get the fa-bar icon elements.
+    // var faBarIcons = document.querySelectorAll(".fa-bars");
+
+    // // Add an event listener to each fa-bar icon to display the category budget when the icon is clicked.
+    // for (var i = 0; i < faBarIcons.length; i++) {
+    //     faBarIcons[i].addEventListener("click", function () {
+    //         // Get the CategoryId from the href attribute.
+    //         var categoryId = this.getAttribute("href");
+
+    //         // Make an AJAX request to get the budget for the category.
+    //         $.ajax({
+    //             url: '/Category/GetBudget/' + categoryId,
+    //             method: 'GET',
+    //             success: function (response) {
+    //                 // Parse the JSON response.
+    //                 var budgetInfo = JSON.parse(response);
+
+    //                 // Get the budget from the response.
+    //                 var budget = budgetInfo.budget;
+
+    //                 // Update the innerHTML of the col-md-5 class element with the budget.
+    //                 budgetInfoDiv.innerHTML = `
+    //           <p class="mb-0">Budget: ${budget}</p>
+    //         `;
+    //             },
+    //             error: function () {
+    //                 // Handle the error, if any.
+    //                 budgetInfoDiv.text('Failed to retrieve budget.');
+    //             }
+    //         });
+    //     });
+    // }
+
+    // get the budget grid element.
+    var budgetgrid = document.getelementbyid("budget-info");
+
+    // get the fa-bar icon elements.
+    var fabaricons = document.queryselectorall(".fa-bars");
+
+    // add an event listener to each fa-bar icon to display the category budget when the icon is clicked.
+    for (var i = 0; i < fabaricons.length; i++) {
+        fabaricons[i].addeventlistener("click", function () {
+            // get the categoryid from the href attribute.
+            var categoryid = this.getattribute("href");
+
+            // make an ajax request to get the budget for the category.
+            $.ajax({
+                url: '/category/getbudget/' + categoryid,
+                method: 'get',
+                success: function (budget) {
+                    // get the category name from the category grid.
+                    var categoryname = budgetgrid.datasource.find(categoryid, "categoryid").titlewithicon;
+
+                    // update the budget-info element with the budget and category name.
+                    document.getelementbyid("budget-info").innerhtml = `
+                          <span class="d-flex flex-row justify-content-between">
+                            <span>budget:</span>
+                            <span>${budget}</span>
+                          </span>
+                          <span class="d-flex flex-row justify-content-between">
+                            <span>category:</span>
+                            <span>${categoryname}</span>
+                          </span>`;
+                },
+                error: function () {
+                    // handle the error, if any.
+                    document.getelementbyid("#budget-info").text('failed to retrieve budget.');
+                }
+            });
+        });
+    }
+
 </script>

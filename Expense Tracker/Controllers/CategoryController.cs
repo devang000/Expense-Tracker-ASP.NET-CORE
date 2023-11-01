@@ -12,7 +12,7 @@ namespace Expense_Tracker.Controllers
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        
         public CategoryController(ApplicationDbContext context)
         {
             _context = context;
@@ -42,7 +42,7 @@ namespace Expense_Tracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit([Bind("CategoryId,Title,Icon,Type")] Category category)
+        public async Task<IActionResult> AddOrEdit([Bind("CategoryId,Title,Icon,Type,Budget")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -56,8 +56,40 @@ namespace Expense_Tracker.Controllers
                 return View(category);
         }
 
+        ////HttpGetAttribute budget for displaying budget in index
+        //public IActionResult GetBudget(int CategoryId)
+        //{
+        //    // Fetch the budget information for the specified category from the database
+        //    var category = _context.Categories.Include(c => c.Budget).FirstOrDefault(c => c.CategoryId == CategoryId);
 
-        
+        //    if (category != null)
+        //    {
+        //        decimal budgetAmount = category.Budget; // Assuming you have a Budget property with an Amount field
+        //        return Json(budgetAmount); // Return the budget amount as JSON
+        //    }
+        //    else
+        //    {
+        //        return Json("Budget not found");
+        //    }
+        //}
+
+        //[HttpGet("GetCategoryName/{categoryId}")]
+        //public IActionResult GetCategoryName(int categoryId)
+        //{
+        //    var category = _context.Categories.FirstOrDefault(c => c.CategoryId == categoryId);
+
+        //    if (category != null)
+        //    {
+        //        string categoryName = category.Title; // Assuming 'Title' is the property that stores the category name
+        //        return Ok(categoryName);
+        //    }
+        //    else
+        //    {
+        //        return NotFound(); // Or return an appropriate status code for "not found"
+        //    }
+        //}
+
+
 
         // POST: Category/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -78,6 +110,33 @@ namespace Expense_Tracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+        //public async Task<IActionResult> GetBudget(int CategoryId)
+        //{
+        //    var category = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryId == CategoryId);
+
+        //    if (CategoryId != null)
+        //    {
+
+        //            decimal budgetAmount = category.Budget;
+        //            return Json(new { Budget = budgetAmount });
+
+        //    }
+        //    else
+        //    {
+        //        return Json(new { Message = "CategoryID not found" });
+        //    }
+        //}
+
+        // GET: Category/GetBudget
+        public async Task<IActionResult> GetBudget(int id)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return Json(category.Budget);
+        }
     }
 }

@@ -14,7 +14,8 @@ namespace Expense_Tracker.Models
         public string Icon { get; set; } = "";
         [Column(TypeName = "nvarchar(10)")]
         public string Type { get; set; } = "Expense";
-        
+        public int Budget { get; set; }
+        [Column(TypeName = "nvarchar(75)")]
 
         [NotMapped]
         public string? TitleWithIcon 

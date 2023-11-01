@@ -8,6 +8,11 @@ html {
   }
 }
 
+.category-info-button:hover {
+    cursor: pointer;
+    background-color: #eee;
+}
+
 html {
     position: relative;
     min-height: 100%;

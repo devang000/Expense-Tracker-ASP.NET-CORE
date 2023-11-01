@@ -26,15 +26,20 @@
                     <ejs-textbox id="Title" placeholder="Title" ejs-for="Title" floatLabelType="Always"></ejs-textbox>
                     <span asp-validation-for="Title" class="text-danger fs-6" ></span>
                 </div>
-                <br>
+                @* <br> *@
                 <div class="mb-3">
                     <ejs-textbox id="Icon" placeholder="Icon" ejs-for="Icon" floatLabelType="Always"></ejs-textbox>
                     <span asp-validation-for="Icon" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <ejs-numerictextbox id="Budget" ejs-for="Budget" placeholder="Budget" min="0" floatLabelType="Always" value="10" Type="text" format="₹0"></ejs-numerictextbox>
+                    <span asp-validation-for="Budget" class="text-danger fs-6"></span>
+                </div>
                 <br>
-                <div class="form-group">
+                <div class="form-group mb-3">
                     <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
                 </div>
+
             </form>
         </div> 
     </div>
