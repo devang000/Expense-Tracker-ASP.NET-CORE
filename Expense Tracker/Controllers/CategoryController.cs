@@ -21,7 +21,9 @@ namespace Expense_Tracker.Controllers
         // GET: Category
         public async Task<IActionResult> Index()
         {
-              return _context.Categories != null ? 
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
+            return _context.Categories != null ? 
                           View(await _context.Categories.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Categories'  is null.");
         }
@@ -31,7 +33,9 @@ namespace Expense_Tracker.Controllers
         // GET: Category/AddOrEdit
         public IActionResult AddOrEdit(int id = 0)
         {
-            if(id == 0)
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
+            if (id == 0)
                 return View(new Category());
             else
                 return View(_context.Categories.Find(id));

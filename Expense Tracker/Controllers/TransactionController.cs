@@ -21,6 +21,8 @@ namespace Expense_Tracker.Controllers
         // GET: Transaction
         public async Task<IActionResult> Index()
         {
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             var applicationDbContext = _context.Transactions.Include(t => t.Category);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -30,6 +32,8 @@ namespace Expense_Tracker.Controllers
         // GET: Transaction/AddOrEdit
         public IActionResult AddOrEdit(int id = 0)
         {
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             PopulateCategories();
             if(id == 0)
                 return View(new Transaction());

@@ -95,13 +95,65 @@
                 <input placeholder="search here.." class="input" name="text" type="text">
             </div>
             @* <i class="fa-solid fa-magnifying-glass"></i> *@
-            <div style="margin-inline-start:inherit">
-                <span class="fst-italic">👋 hello! devang gohil</span>
+           @*  <div style="margin-inline-start:inherit">
+                <span class="fst-italic">
+                    @if (ViewBag.LoggedInUserName != null)
+                    {
+                        <text>👋 hey, @ViewBag.LoggedInUserName</text>
+                    }
+                </span>
+
                 <i class="fa-solid fa-bell"></i>
                 <img class="profile-pic" src="/lib/pic.png" />
+            </div> *@
+            <div class="dropdown" style="margin-inline-start: inherit">
+                    <span class="username" style="color: white; text-decoration: none;">
+                        @if (ViewBag.LoggedInUserName != null)
+                        {
+                            <text>👋 Hey, @ViewBag.LoggedInUserName</text>
+                        }
+                    </span>
+                    <i class="fa-solid fa-bell" style="color:white"></i>
+                <a id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img class="profile-pic" src="/lib/pic.png" />
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                    <!-- Other profile options can be added here -->
+                    <li>
+                        <a class="dropdown-item" href="/Account/Logout" onclick="Logout()">
+                            <i class="fa-solid fa-sign-out"></i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
+
+    <style>
+        .username {
+            color: white; 
+            text-decoration: none;
+        }
+    </style>
+
+
+    <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById("myDropdown");
+            if (dropdown.style.display === "none" || dropdown.style.display === "") {
+                dropdown.style.display = "block";
+            } else {
+                dropdown.style.display = "none";
+            }
+        }
+
+        function logout() {
+            // Add logout functionality here
+            alert("Logged out"); // For demonstration purposes
+        }
+
+    </script>
 
     <div class="main-content">
 

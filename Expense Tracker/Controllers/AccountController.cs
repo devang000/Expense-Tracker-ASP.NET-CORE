@@ -45,29 +45,43 @@ namespace Expense_Tracker.Controllers
             return View();
         }
 
+
+        // AccountController.cs
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(string Username, string password)
         {
-            // Check if the username and password are valid
-            var user = _context.UserAccount.FirstOrDefault(u => u.Username == username);
-            if (user == null || !Verify(password, user.Password))
+            var user = _context.UserAccount.FirstOrDefault(u => u.Username == Username);
+
+            if (user != null && Verify(password, user.Password))
             {
-                ModelState.AddModelError("Login", "Invalid username or password");
-                return View();
+                // Set the username in a cookie
+                Response.Cookies.Append("LoggedInUserName", user.Username, new CookieOptions
+                {
+                    Expires = DateTimeOffset.UtcNow.AddHours(1), // Set cookie expiration time
+                    HttpOnly = true // Helps to prevent XSS attacks by restricting access from JavaScript
+                });
+
+                // Redirect to the DashboardController with the username parameter
+                return RedirectToAction("Index", "Dashboard", new { username = user.Username });
             }
 
-            // Redirect the user to the home page
-            return RedirectToAction("Index", "Dashboard");
+            ModelState.AddModelError("Login", "Invalid username or password");
+            return View();
         }
+
+
+
 
         public async Task<IActionResult> Logout()
         {
-            // Clear the user session
-            HttpContext.Session.Clear();
+            // Clear the specific cookie that stores the logged-in user's information
+            Response.Cookies.Delete("LoggedInUserName");
 
-            // Redirect the user to the login page
+            // Redirect to the login page or any other relevant page after logout
             return RedirectToAction("Login");
         }
+
     }
 }

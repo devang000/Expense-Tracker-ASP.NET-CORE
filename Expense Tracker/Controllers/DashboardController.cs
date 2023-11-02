@@ -1,4 +1,5 @@
 ﻿using Expense_Tracker.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -17,6 +18,9 @@ namespace Expense_Tracker.Controllers
 
         public async Task<ActionResult> Index()
         {
+
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             //Last 7 Days
             DateTime StartDate = DateTime.Today.AddDays(-6);
             DateTime EndDate = DateTime.Today;

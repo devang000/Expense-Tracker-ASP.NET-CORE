@@ -15,6 +15,8 @@ namespace Expense_Tracker.Controllers
 
         public IActionResult Index()
         {
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             return View();
         }
 
