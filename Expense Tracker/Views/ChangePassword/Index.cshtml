@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Change Password</h1>
+<br />
+<form asp-action="ChangePassword" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.ChangePasswordError))
+    {
+        <div class="text-danger">@ViewBag.ChangePasswordError</div>
+    }
+
+    <div class="form-group">
+        <label>Enter old password:</label>
+        
+        <input type="password" name="oldPassword" class="form-control bg-dark text-white" />
+    </div>
+    <br />
+    <div class="form-group">
+        <label>Enter new password:</label>
+        
+        <input type="password" name="newPassword" class="form-control bg-dark text-white" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-success">Update Password</button>
+</form>

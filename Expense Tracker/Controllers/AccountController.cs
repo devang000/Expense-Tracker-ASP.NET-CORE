@@ -42,11 +42,12 @@ namespace Expense_Tracker.Controllers
 
         public IActionResult Login()
         {
+            if (Request.Cookies["LoggedInUserName"] != null)
+            {
+                return RedirectToAction("Index", "Dashboard", new { username = Request.Cookies["LoggedInUserName"] });
+            }
             return View();
         }
-
-
-        // AccountController.cs
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -54,32 +55,31 @@ namespace Expense_Tracker.Controllers
         {
             var user = _context.UserAccount.FirstOrDefault(u => u.Username == Username);
 
-            if (user != null && Verify(password, user.Password))
+            if (user == null || !Verify(password, user.Password))
             {
-                // Set the username in a cookie
-                Response.Cookies.Append("LoggedInUserName", user.Username, new CookieOptions
-                {
-                    Expires = DateTimeOffset.UtcNow.AddHours(1), // Set cookie expiration time
-                    HttpOnly = true // Helps to prevent XSS attacks by restricting access from JavaScript
-                });
-
-                // Redirect to the DashboardController with the username parameter
-                return RedirectToAction("Index", "Dashboard", new { username = user.Username });
+                ViewBag.ErrorMessage = "Username or password is incorrect."; // Set error message in ViewBag
+                return View();
             }
 
-            ModelState.AddModelError("Login", "Invalid username or password");
-            return View();
+            Response.Cookies.Append("LoggedInUserName", user.Username, new CookieOptions
+            {
+                Expires = DateTimeOffset.UtcNow.AddHours(1),
+                HttpOnly = true
+            });
+
+            return RedirectToAction("Index", "Dashboard", new { username = user.Username });
         }
 
 
-
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> Logout()
         {
-            // Clear the specific cookie that stores the logged-in user's information
+            TempData["LogoutSuccess"] = true;
             Response.Cookies.Delete("LoggedInUserName");
-
-            // Redirect to the login page or any other relevant page after logout
             return RedirectToAction("Login");
         }
 

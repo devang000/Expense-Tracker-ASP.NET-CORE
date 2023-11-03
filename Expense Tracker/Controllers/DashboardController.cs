@@ -16,11 +16,19 @@ namespace Expense_Tracker.Controllers
             _context = context;
         }
 
+
         public async Task<ActionResult> Index()
         {
 
             var loggedInUserName = Request.Cookies["LoggedInUserName"];
             ViewBag.LoggedInUserName = loggedInUserName;
+
+            if (Request.Cookies["LoggedInUserName"] == null)
+            {
+                // If the user is logged in, redirect to the Dashboard
+                return RedirectToAction("Login", "Account", new { username = Request.Cookies["LoggedInUserName"] });
+            }
+
             //Last 7 Days
             DateTime StartDate = DateTime.Today.AddDays(-6);
             DateTime EndDate = DateTime.Today;

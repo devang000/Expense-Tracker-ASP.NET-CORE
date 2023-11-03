@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+<h1>Settings</h1>
+<br />
+<br />
+
+<div class="settings-list">
+    <ul>
+        <li><a asp-controller="Profile" asp-action="Index">My Profile</a></li>
+        <li><a asp-controller="ChangePassword" asp-action="Index">Change Password</a></li>
+    </ul>
+</div>
+
+<div class="logout-button">
+    <form asp-controller="Account" asp-action="Logout">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+</div>
+
+@* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    document.getElementById("changePasswordLink").addEventListener("click", function (e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Change Password',
+            html:
+                '<input id="oldPassword" class="swal2-input" placeholder="Enter Old Password" type="password">' +
+                '<input id="newPassword" class="swal2-input" placeholder="Enter New Password" type="password">',
+            focusConfirm: false,
+            preConfirm: () => {
+                const oldPassword = Swal.getPopup().querySelector('#oldPassword').value;
+                const newPassword = Swal.getPopup().querySelector('#newPassword').value;
+                if (!oldPassword || !newPassword) {
+                    Swal.showValidationMessage('Please enter both old and new passwords');
+                }
+                // Call a function to update the password using oldPassword and newPassword
+                // Example: updatePassword(oldPassword, newPassword);
+            }
+        });
+    });
+</script> *@

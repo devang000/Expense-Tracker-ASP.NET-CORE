@@ -8,6 +8,7 @@ namespace Expense_Tracker.Models
         [Key]
         public int idUser { get; set; }
         
+
         [Required (ErrorMessage = "*First Name is Required")]
         [Column(TypeName = "nvarchar(50)")]
         public string FirstName { get; set; }
