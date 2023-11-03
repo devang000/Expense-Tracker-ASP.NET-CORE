@@ -1,6 +1,6 @@
 ﻿using Expense_Tracker.Models;
 using Microsoft.AspNetCore.Mvc;
-using BCrypt.Net; // Import the BCrypt.Net namespace
+using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,30 +18,37 @@ namespace Expense_Tracker.Controllers
 
         public IActionResult Index()
         {
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(string oldPassword, string newPassword)
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
         {
             var loggedInUserName = Request.Cookies["LoggedInUserName"];
             ViewBag.LoggedInUserName = loggedInUserName;
 
-            var user = _context.UserAccount.FirstOrDefault(u => u.Username == loggedInUserName);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(oldPassword, user.Password))
+            if (!ModelState.IsValid)
             {
-                ViewBag.ChangePasswordError = "Old password is incorrect."; // Set error message in ViewBag
-                return View("ChangePassword"); // Display the ChangePassword view with an error message
+                return View("Index", model);
             }
 
-            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            var user = _context.UserAccount.FirstOrDefault(u => u.Username == loggedInUserName);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.OldPassword, user.Password))
+            {
+                ModelState.AddModelError("OldPassword", "Old password is incorrect");
+                return View("Index", model);
+            }
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.NewPassword);
             _context.UserAccount.Update(user);
             await _context.SaveChangesAsync();
 
             TempData["ChangePasswordSuccess"] = true;
-            return RedirectToAction("Index", "Dashboard", new { username = loggedInUserName });
+            return RedirectToAction("Index", "ChangePassword", new { username = loggedInUserName });
         }
     }
 }

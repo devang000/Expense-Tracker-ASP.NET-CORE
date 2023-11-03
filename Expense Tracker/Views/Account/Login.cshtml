@@ -47,6 +47,10 @@
                         <input asp-for="Password" class="form-control bg-dark text-light" />
                         <span asp-validation-for="Password" class="text-danger"></span> <!-- Display password validation error -->
                     </div>
+                    <!-- Hyperlink for new account -->
+                    <div class="text-left">
+                        <a asp-controller="Account" asp-action="Register" class="text-light">Create new account?</a>
+                    </div>
                     <br />
                     <div class="form-group">
                         <input style="font-family: 'Poppins', sans-serif; width: 30%" type="submit" value="Login" class="btn btn-success d-block mx-auto fw-bold" />

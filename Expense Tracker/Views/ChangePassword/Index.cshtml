@@ -1,29 +1,102 @@
-﻿
+﻿@model Expense_Tracker.Models.ChangePassword
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Change Password";
 }
+
+<!-- Include SweetAlert scripts and styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+
+<style>
+    .form-group {
+        position: relative;
+        margin-bottom: 25px;
+    }
+
+    .input-group {
+        position: relative;
+        width: 100%;
+    }
+
+    .e-float-input.e-input-group:not(.e-control-wrapper) {
+        background: transparent;
+    }
+
+    .e-float-input {
+        width: calc(100% - 30px); /* Adjust for the icon */
+    }
+
+    .e-float-text {
+        color: white; /* White floating label */
+    }
+
+    .e-icon-span {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        margin-top: 13px;
+        margin-right: 13px;
+        z-index: 0; /* Increase z-index */
+    }
+
+    .text-danger {
+        position: absolute;
+        
+        top: calc(100% + 13px); /* Display below the textbox */
+        transform: translateY(-50%);
+        z-index: 1; /* Set higher z-index */
+    }
+</style>
 
 <h1>Change Password</h1>
 <br />
+<br />
 <form asp-action="ChangePassword" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-    @if (!string.IsNullOrEmpty(ViewBag.ChangePasswordError))
-    {
-        <div class="text-danger">@ViewBag.ChangePasswordError</div>
-    }
+    <div class="form-group">
+        <div class="input-group">
+            <ejs-textbox id="oldPasswordInput" name="oldPassword" floatLabelType="Auto" placeholder="Enter old password" input-type="Password" cssClass="e-float-input" cssClassFloat="e-float-text"></ejs-textbox>
+            <span class="e-icon-span" id="oldPasswordIcon" onclick="togglePassword('oldPasswordInput', 'oldPasswordIcon')">
+                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            </span>
+            <span asp-validation-for="OldPassword" class="text-danger"></span>
+        </div>
+    </div>
 
     <div class="form-group">
-        <label>Enter old password:</label>
-        
-        <input type="password" name="oldPassword" class="form-control bg-dark text-white" />
+        <div class="input-group">
+            <ejs-textbox id="newPasswordInput" name="newPassword" floatLabelType="Auto" placeholder="Enter new password" input-type="Password" cssClass="e-float-input" cssClassFloat="e-float-text"></ejs-textbox>
+            <span class="e-icon-span" id="newPasswordIcon" onclick="togglePassword('newPasswordInput', 'newPasswordIcon')">
+                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            </span>
+            <span asp-validation-for="NewPassword" class="text-danger"></span>
+        </div>
     </div>
-    <br />
-    <div class="form-group">
-        <label>Enter new password:</label>
-        
-        <input type="password" name="newPassword" class="form-control bg-dark text-white" />
-    </div>
+
     <br />
     <button type="submit" class="btn btn-success">Update Password</button>
 </form>
+
+@if (TempData["ChangePasswordSuccess"] != null)
+{
+    <script>
+        Swal.fire('Success!', 'Your password has been changed successfully.', 'success');
+    </script>
+}
+
+<script>
+    function togglePassword(inputId, iconId) {
+        const passwordInput = document.getElementById(inputId);
+        const passwordIcon = document.getElementById(iconId);
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordIcon.innerHTML = '<i class="fa fa-eye" aria-hidden="true"></i>';
+        } else {
+            passwordInput.type = "password";
+            passwordIcon.innerHTML = '<i class="fa fa-eye-slash" aria-hidden="true"></i>';
+        }
+    }
+</script>

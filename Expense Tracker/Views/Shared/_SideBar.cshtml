@@ -35,15 +35,29 @@
     
     menuItems.Add(new
     {
-        text = "Extras",
+        text = "Settings",
         separator=true,
+    });
+
+    // menuItems.Add(new
+    // {
+    //     text = "Settings",
+    //     url = "/Setting",
+    //     iconCss = "fa-solid fa-gear",
+    // });
+
+    menuItems.Add(new
+    {
+        text = "My Profile",
+        url = "/",
+        iconCss = "fa-solid fa-user",
     });
 
     menuItems.Add(new
     {
-        text = "Settings",
-        url = "/Setting",
-        iconCss = "fa-solid fa-gear",
+        text = "Change Password",
+        url = "/ChangePassword",
+        iconCss = "fa-solid fa-lock",
     });
 }
 
