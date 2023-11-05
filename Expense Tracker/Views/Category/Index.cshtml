@@ -21,15 +21,8 @@
     </div>
 
     <div class="col-md-5">
-        <div id="budget-info" class="widget h-100 d-flex justify-content-center align-items-center">
-            <!-- Budget information will be displayed here -->
-            <h4 class="mb-0">${category.TitleWithIcon}</h4>
-            <p class="mb-0">Budget: ${budget}</p>
-        </div>
+        @Html.Partial("BudgetInfo")
     </div>
-</div>
-
-
 
 <script id="typeColumnTemplate" type="text/x-template">
     ${if(Type=="Income")}
@@ -55,83 +48,4 @@
         </a>
       </form>
     </div>
-</script>
-
-
-<script>
-    // // Get the col-md-5 class element.
-    // var budgetInfoDiv = document.querySelector(".col-md-5");
-
-    // // Get the fa-bar icon elements.
-    // var faBarIcons = document.querySelectorAll(".fa-bars");
-
-    // // Add an event listener to each fa-bar icon to display the category budget when the icon is clicked.
-    // for (var i = 0; i < faBarIcons.length; i++) {
-    //     faBarIcons[i].addEventListener("click", function () {
-    //         // Get the CategoryId from the href attribute.
-    //         var categoryId = this.getAttribute("href");
-
-    //         // Make an AJAX request to get the budget for the category.
-    //         $.ajax({
-    //             url: '/Category/GetBudget/' + categoryId,
-    //             method: 'GET',
-    //             success: function (response) {
-    //                 // Parse the JSON response.
-    //                 var budgetInfo = JSON.parse(response);
-
-    //                 // Get the budget from the response.
-    //                 var budget = budgetInfo.budget;
-
-    //                 // Update the innerHTML of the col-md-5 class element with the budget.
-    //                 budgetInfoDiv.innerHTML = `
-    //           <p class="mb-0">Budget: ${budget}</p>
-    //         `;
-    //             },
-    //             error: function () {
-    //                 // Handle the error, if any.
-    //                 budgetInfoDiv.text('Failed to retrieve budget.');
-    //             }
-    //         });
-    //     });
-    // }
-
-    // get the budget grid element.
-    var budgetgrid = document.getelementbyid("budget-info");
-
-    // get the fa-bar icon elements.
-    var fabaricons = document.queryselectorall(".fa-bars");
-
-    // add an event listener to each fa-bar icon to display the category budget when the icon is clicked.
-    for (var i = 0; i < fabaricons.length; i++) {
-        fabaricons[i].addeventlistener("click", function () {
-            // get the categoryid from the href attribute.
-            var categoryid = this.getattribute("href");
-
-            // make an ajax request to get the budget for the category.
-            $.ajax({
-                url: '/category/getbudget/' + categoryid,
-                method: 'get',
-                success: function (budget) {
-                    // get the category name from the category grid.
-                    var categoryname = budgetgrid.datasource.find(categoryid, "categoryid").titlewithicon;
-
-                    // update the budget-info element with the budget and category name.
-                    document.getelementbyid("budget-info").innerhtml = `
-                          <span class="d-flex flex-row justify-content-between">
-                            <span>budget:</span>
-                            <span>${budget}</span>
-                          </span>
-                          <span class="d-flex flex-row justify-content-between">
-                            <span>category:</span>
-                            <span>${categoryname}</span>
-                          </span>`;
-                },
-                error: function () {
-                    // handle the error, if any.
-                    document.getelementbyid("#budget-info").text('failed to retrieve budget.');
-                }
-            });
-        });
-    }
-
 </script>
