@@ -81,16 +81,26 @@ namespace Expense_Tracker.Controllers
 
         public async Task<IActionResult> GetBudget(int id)
         {
+            var loggedInUserName = Request.Cookies["LoggedInUserName"];
+            ViewBag.LoggedInUserName = loggedInUserName;
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            ViewBag.CategoryName = category.Title;
+            ViewBag.CategoryName = category.TitleWithIcon;
             ViewBag.Budget = category.Budget;
+      
+            decimal totalTransactionsAmount = _context.Transactions
+                                                .Where(t => t.CategoryId == id)
+                                                .Sum(t => t.Amount);
 
-            // Return the Index view with the budget information
+            ViewBag.TotalTransactionsAmount = totalTransactionsAmount;
+
+            decimal currentBalance = category.Budget - totalTransactionsAmount;
+            ViewBag.CurrentBalance = currentBalance;
+
             return View("Index", await _context.Categories.ToListAsync());
         }
 

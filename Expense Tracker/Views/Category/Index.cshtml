@@ -6,7 +6,24 @@
     ViewData["PageActionUrl"] = "/Category/AddOrEdit";
 }
 
-
+<style>
+    .bg{
+        background-color: rgb(220,53,69);
+        color:white;
+        border-radius: 10px;
+        padding:5px;
+        font-weight: bold;
+        font-size: medium;
+    }
+    .bg2{
+        background-color: rgb(25,135,84);
+        color:white;
+        border-radius: 10px;
+        padding:5px;
+        font-weight:bold;
+        font-size:medium;
+    }
+</style>
 <div class="row">
     <div class="col-md-7">
         <ejs-grid id="categories" dataSource="@Model" gridLines="None"
@@ -20,9 +37,42 @@
         </ejs-grid>
     </div>
 
-    <div class="col-md-5">
-        @Html.Partial("BudgetInfo")
-    </div>
+    @if (ViewBag.CategoryName != null && ViewBag.Budget != null)
+    {
+        <div class="col-md-5">
+            <div id="budget-info" class="widget h-100 p-3">
+                <p>@ViewBag.CategoryName</p>
+                <hr />
+                <p class="badge bg-success">Budget: <b>₹@ViewBag.Budget</b></p>
+                <p class="badge bg-danger">Total Expense: <b>₹@ViewBag.TotalTransactionsAmount</b></p>
+                <hr />
+                @{
+                    decimal currentBalance = (decimal)ViewBag.CurrentBalance;
+                    decimal displayBalance = currentBalance < 0 ? 0 : currentBalance;
+                }
+                <p>Current Balance: <b>₹@displayBalance</b></p>
+                @if ((decimal)ViewBag.CurrentBalance < 0)
+                {
+                    <p class="bg">Overspent: <b>₹@Math.Abs((decimal)ViewBag.CurrentBalance)</b></p>
+                    <img src="~/lib/over-removebg-preview.png" alt="Triangle" class="img-fluid" style="box-shadow: black 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;" />
+                }
+                else
+                {
+                    <p class="bg2">🎉 Your expense is under budget!</p>
+                    <img src="~/lib/under-removebg-preview.png" class="img-fluid" style="box-shadow: black 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;" />
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-5">
+            <div class="widget h-100 d-flex justify-content-center align-items-center">
+                <img src="~/lib/cat.png" alt="Triangle" class="img-fluid" style="max-width: auto; height: 60%" />
+            </div>
+        </div>
+    }
+
 
 <script id="typeColumnTemplate" type="text/x-template">
     ${if(Type=="Income")}

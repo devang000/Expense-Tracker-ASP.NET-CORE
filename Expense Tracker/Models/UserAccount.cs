@@ -35,5 +35,9 @@ namespace Expense_Tracker.Models
         [DataType(DataType.Password)]
         [Column(TypeName = "nvarchar(255)")]
         public string ConfirmPasssword { get; set; }
+
+        public string ProfilePicturePath { get; set; }
+        [NotMapped]
+        public IFormFile ProfilePicture { get; set; }
     }
 }
