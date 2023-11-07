@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="~/Expense_Tracker.styles.css" asp-append-version="true" />
     <script src="https://cdn.syncfusion.com/ej2/22.2.5/dist/ej2.min.js"></script>
 </head>
+
+
+
+
 <body class="e-bigger">
     <style>
             .input-wrapper {
@@ -95,16 +99,24 @@
                 <input placeholder="search here.." class="input" name="text" type="text">
             </div>
             <div class="dropdown" style="margin-inline-start: inherit">
-                    <span class="username" style="color: white; text-decoration: none;">
-                        @if (ViewBag.LoggedInUserName != null)
-                        {
-                            <text>👋 Hey, @ViewBag.LoggedInUserName</text>
-                        }
-                    </span>
-                    <i class="fa-solid fa-bell" style="color:white"></i>
+                <span class="username" style="color: white; text-decoration: none;">
+                    @if (ViewBag.LoggedInUserName != null)
+                    {
+                        <text>👋 Hey, @ViewBag.LoggedInUserName</text>
+                    }
+                </span>
+                <i class="fa-solid fa-bell" style="color:white"></i>
                 <a id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="profile-pic" src="/lib/pic.png" />
+                    @if (!string.IsNullOrEmpty(ViewBag.ProfilePicturePath))
+                    {
+                        <img class="profile-pic" src="@ViewBag.ProfilePicturePath" />
+                    }
+                    else
+                    {
+                        <img class="profile-pic" src="/lib/default-profile-pic.png" />
+                    }
                 </a>
+
                 <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                     <!-- Other profile options can be added here -->
                     <li>
@@ -115,6 +127,7 @@
                     </li>
                 </ul>
             </div>
+
         </div>
     </nav>
 
@@ -123,7 +136,19 @@
             color: white; 
             text-decoration: none;
         }
+
+        .dropdown-menu{
+            background-color: rgb(220,53,69);
+            color:white
+        }
+
+        .dropdown-item{
+            background-color: rgb(220,53,69);
+            color: white
+        }
+
     </style>
+
 
 
     <script>

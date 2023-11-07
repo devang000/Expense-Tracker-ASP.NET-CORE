@@ -33,9 +33,9 @@ namespace Expense_Tracker.Controllers
                     return View(user);
                 }
                 user.Password = HashPassword(user.Password);
-                    _context.UserAccount.Add(user);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction("Login");
+                _context.UserAccount.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login");
             }
             return View(user);
         }

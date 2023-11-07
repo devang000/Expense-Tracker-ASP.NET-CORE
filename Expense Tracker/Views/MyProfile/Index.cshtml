@@ -1,0 +1,68 @@
+﻿@model Expense_Tracker.Models.UserAccount
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>My Profile / Edit Profile</h1>
+
+@using Syncfusion.EJ2;
+
+<form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <br />
+    <br />
+    <input type="hidden" asp-for="idUser" />
+    <div class="form-group">
+        <label asp-for="FirstName" class="control-label"></label>
+        <input asp-for="FirstName" class="form-control bg-dark text-light" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="LastName" class="control-label"></label>
+        <input asp-for="LastName" class="form-control bg-dark text-light" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control bg-dark text-light" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <br />
+    <div class="form-group">
+        <label asp-for="Username" class="control-label"></label>
+        <input asp-for="Username" class="form-control bg-dark text-light" />
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+    <br />
+    
+    <div class="form-group">
+        <input style="font-family: 'Poppins', sans-serif; width: 30%" type="submit" value="Update Profile" class="btn btn-success fw-bold" />
+    </div>
+</form>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                html: '@TempData["SuccessMessage"]',
+                showConfirmButton: true,
+                confirmButtonText: 'OK',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    
+                }
+            });
+        </script>
+    }
+
+
